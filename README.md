@@ -1,1 +1,2 @@
 # rock-paper-scissors
+First Javascript project to code a rock-paper-scissors game. Player is offered to input their selection, and computer randomly selects one of three options. Five rounds are played.
