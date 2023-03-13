@@ -1,3 +1,19 @@
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector('#paper');
+const scissorButton = document.querySelector('#scissors');
+const resultsDiv = document.querySelector('.results');
+const computerScoreDiv = document.querySelector('.computerScore');
+const playerScoreDiv = document.querySelector('.playerScore');
+
+let playerScore = 0;
+let computerScore = 0;
+let roundNumber = 0;
+
+rockButton.addEventListener('click', buttonClick)
+paperButton.addEventListener('click', buttonClick)
+scissorButton.addEventListener('click', buttonClick)
+
+
 function getComputerSelection() {
     let result = Math.floor(Math.random() * 3);
     if(result === 0){
@@ -30,6 +46,7 @@ function playRound(playerSelection, computerSelection) {
         return "Invalid input, please try again";
     }
 
+    resultsDiv.textContent = `Player selected ${playerSelection}, Computer selected ${computerSelection}. `;
     console.log(`Player selected ${playerSelection}, Computer selected ${computerSelection}`);
 
     if(playerSelection ===  computerSelection){
@@ -59,42 +76,47 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for(let i = 1; i < 6; i++) {
-        let playerSelection = prompt("Please type Rock, Paper, or Scissors");
-        let computerSelection = getComputerSelection();
-
-        roundResult = playRound(playerSelection, computerSelection)
-        if(roundResult === "You win!"){
-            console.log(`The player wins, ${playerSelection} beats ${computerSelection}`);
-            playerScore++;
-        }
-        else if(roundResult === "You lose!"){
-            console.log(`The player loses, ${playerSelection} loses to ${computerSelection}`);
-            computerScore++;
-        }
-        else if(roundResult === "Tie game"){
-            console.log("Tie game! Nobody wins or loses");
-        }
-
-        else {
-            console.log("The round was skipped, invalid input")
-            i--;
-        }
-
-        if (i !== 0){
-            console.log(`The score for round ${i} is ${playerScore} for the player and ${computerScore} for the computer`);
-        }
-        else {
-            console.log(`The score for round 1 is ${playerScore} for the player and ${computerScore} for the computer`);
-        }
+function buttonClick (e) {
+    let computerSelection = getComputerSelection();
+    let playerSelection = this.id;
+    roundResult = playRound(playerSelection, computerSelection)
+    if(roundResult === "You win!"){
+        console.log(`The player wins, ${playerSelection} beats ${computerSelection}`);
+        playerScore++;
+        roundNumber++;
+        playerScoreDiv.textContent = `${playerScore}`;
 
     }
+    else if(roundResult === "You lose!"){
+        console.log(`The player loses, ${playerSelection} loses to ${computerSelection}`);
+        computerScore++;
+        roundNumber++;
+        computerScoreDiv.textContent = `${computerScore}`;
+    }
+    else if(roundResult === "Tie game"){
+        console.log("Tie game! Nobody wins or loses");
+        roundNumber++;
+    }
 
-    console.log(`The final score is ${playerScore} for the player and ${computerScore} for the computer`);
+    resultsDiv.append(`The score for round ${roundNumber} is ${computerScore} for the computer and ${playerScore} for the player`);
+    console.log(`The score for round ${roundNumber} is ${playerScore} for the player and ${computerScore} for the computer`);
+
+    if(playerScore == 5) {
+        resultsDiv.textContent = `The player won with a score of 5 vs a computer score of ${computerScore} in ${roundNumber} rounds! The game has been reset`
+        playerScore = 0;
+        computerScore = 0;
+        roundNumber = 0;
+        playerScoreDiv.textContent = `${playerScore}`;
+        computerScoreDiv.textContent = `${computerScore}`;
+    }
+
+    if(computerScore == 5) {
+        resultsDiv.textContent = `The computer won with a score of 5 vs a player score of ${playerScore} in ${roundNumber} rounds! The game has been reset`
+        playerScore = 0;
+        computerScore = 0;
+        roundNumber = 0;
+        playerScoreDiv.textContent = `${playerScore}`;
+        computerScoreDiv.textContent = `${computerScore}`;
+    }
 }
 
-game();
