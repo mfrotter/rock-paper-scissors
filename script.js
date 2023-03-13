@@ -79,7 +79,9 @@ function playRound(playerSelection, computerSelection) {
 function buttonClick (e) {
     let computerSelection = getComputerSelection();
     let playerSelection = this.id;
-    roundResult = playRound(playerSelection, computerSelection)
+
+    roundResult = playRound(playerSelection, computerSelection);
+
     if(roundResult === "You win!"){
         console.log(`The player wins, ${playerSelection} beats ${computerSelection}`);
         playerScore++;
